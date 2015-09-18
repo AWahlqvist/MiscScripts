@@ -23,9 +23,10 @@ $CurrentWeather = $MyDeviceLocation | Get-SMHIWeatherData | Where-Object { [date
 
 if ($CurrentWeather.PrecipitationCategory -contains 'Rain') {
 
-    <# Since the weather is bad, let's send a e-mail with a webhook for starting the coffee brewer
-       Note: Sending a webhook over e-mail is a BAD idea (huge security risk depending on the runbook),
-       this is just for demo purposes.
+    <# 
+       Since the weather is bad, let's send a e-mail with a webhook for starting the coffee brewer
+       Note: Sending a webhook over e-mail or publishing it on the web without authentication is a 
+       BAD idea (huge security risk depending on the runbook), this is just for demo purposes.
     #>
 
     $WepageLink = Get-AutomationVariable -Name 'StartCoffeeBrewerPage'
