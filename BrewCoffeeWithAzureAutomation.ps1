@@ -18,6 +18,9 @@ if (!$MyDeviceLocation) {
     }
 }
 
+Write-Output "The following data was fetched from the device:`nLong: $($MyDeviceLocation.Longitude)`nLat: $($MyDeviceLocation.Latitude)"
+
+
 # Time to get a weather report for my location
 $CurrentWeather = $MyDeviceLocation | Get-SMHIWeatherData | Where-Object { [datetime] $_.ForecastEndDate -lt (Get-Date).AddHours(2) }
 
@@ -28,6 +31,8 @@ if ($CurrentWeather.PrecipitationCategory -contains 'Rain') {
        Note: Sending a webhook over e-mail or publishing it on the web without authentication is a 
        BAD idea (huge security risk depending on the runbook), this is just for demo purposes.
     #>
+
+    Write-Output "It seems to be rain at that location, let's send out the e-mail..."
 
     $WepageLink = Get-AutomationVariable -Name 'StartCoffeeBrewerPage'
 
@@ -56,4 +61,9 @@ Jarvis, running in Azure Automation<BR>
     }
 
     Send-MailMessage @MailMessageParams
+
+    Write-Output 'E-mail is sent.'
+}
+else {
+    Write-Output 'Seems the weather is fine, you have to make your own coffee!'
 }
